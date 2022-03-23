@@ -2,24 +2,15 @@ package com.platzi.android.rickandmorty.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.platzi.android.rickandmorty.api.CharacterRequest
-import com.platzi.android.rickandmorty.api.CharacterResponseServer
-import com.platzi.android.rickandmorty.api.CharacterServer
-import com.platzi.android.rickandmorty.api.CharacterService
-import com.platzi.android.rickandmorty.api.toCharacterServerList
-import com.platzi.android.rickandmorty.ui.CharacterListFragment
+import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.usecases.GetAllCharacterUseCase
-import com.platzi.android.rickandmorty.utils.showLongToast
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_character_list.*
 
 private const val PAGE_SIZE = 20
 
 class CharacterListViewModel(
-    private val getAllCharacterUseCase: GetAllCharacterUseCase
-    ) : ViewModel() {
+        private val getAllCharacterUseCase: GetAllCharacterUseCase
+) : ViewModel() {
 
     private val disposable = CompositeDisposable()
 
@@ -45,9 +36,9 @@ class CharacterListViewModel(
     }
 
     private fun isInFooter(
-        visibleItemCount: Int,
-        firstVisibleItemPosition: Int,
-        totalItemCount: Int
+            visibleItemCount: Int,
+            firstVisibleItemPosition: Int,
+            totalItemCount: Int
     ): Boolean {
         return visibleItemCount + firstVisibleItemPosition >= totalItemCount
                 && firstVisibleItemPosition >= 0
@@ -65,29 +56,29 @@ class CharacterListViewModel(
 
     fun onGetAllCharacters() {
         disposable.add(
-            getAllCharacterUseCase
-                .invoke(currentPage)
-                .doOnSubscribe {
-                    _events.value = Event(CharacterListNavigation.ShowLoading)
-                }
-                .subscribe({ characterList ->
-                    if (characterList.size < PAGE_SIZE) {
-                        isLastPage = true
-                    }
-                    _events.value = Event(CharacterListNavigation.HideLoading)
-                    _events.value = Event(CharacterListNavigation.ShowCharacterList(characterList))
-                }, { error ->
-                    isLastPage = true
-                    _events.value = Event(CharacterListNavigation.HideLoading)
-                    _events.value = Event(CharacterListNavigation.ShowCharacterError(error))
-                })
+                getAllCharacterUseCase
+                        .invoke(currentPage)
+                        .doOnSubscribe {
+                            _events.value = Event(CharacterListNavigation.ShowLoading)
+                        }
+                        .subscribe({ characterList ->
+                            if (characterList.size < PAGE_SIZE) {
+                                isLastPage = true
+                            }
+                            _events.value = Event(CharacterListNavigation.HideLoading)
+                            _events.value = Event(CharacterListNavigation.ShowCharacterList(characterList))
+                        }, { error ->
+                            isLastPage = true
+                            _events.value = Event(CharacterListNavigation.HideLoading)
+                            _events.value = Event(CharacterListNavigation.ShowCharacterError(error))
+                        })
         )
     }
 
 
     sealed class CharacterListNavigation {
         data class ShowCharacterError(val error: Throwable) : CharacterListNavigation()
-        data class ShowCharacterList(val characterList: List<CharacterServer>) : CharacterListNavigation()
+        data class ShowCharacterList(val characterList: List<Character>) : CharacterListNavigation()
         object HideLoading : CharacterListNavigation()
         object ShowLoading : CharacterListNavigation()
     }

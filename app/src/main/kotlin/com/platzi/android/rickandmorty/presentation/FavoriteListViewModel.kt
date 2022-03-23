@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.platzi.android.rickandmorty.database.CharacterEntity
+import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.usecases.GetAllFavoriteCharactersUseCase
 import io.reactivex.disposables.CompositeDisposable
 
 class FavoriteListViewModel(
-    private val getAllFavoriteCharactersUseCase: GetAllFavoriteCharactersUseCase
+        private val getAllFavoriteCharactersUseCase: GetAllFavoriteCharactersUseCase
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
@@ -17,10 +17,10 @@ class FavoriteListViewModel(
     private val _events = MutableLiveData<Event<FavoriteListNavigation>>()
     val events get() = _events
 
-    private val _favoriteCharacterList: LiveData<List<CharacterEntity>>
+    private val _favoriteCharacterList: LiveData<List<Character>>
         get() = LiveDataReactiveStreams.fromPublisher(getAllFavoriteCharactersUseCase.invoke())
 
-    val favoriteCharacterList: LiveData<List<CharacterEntity>>
+    val favoriteCharacterList: LiveData<List<Character>>
         get() = _favoriteCharacterList
 
     override fun onCleared() {
@@ -28,7 +28,7 @@ class FavoriteListViewModel(
         disposable.clear()
     }
 
-    fun onFavoriteCharacterList(list: List<CharacterEntity>) {
+    fun onFavoriteCharacterList(list: List<Character>) {
         if (list.isEmpty()) {
             _events.value = Event(FavoriteListNavigation.ShowEmptyList)
             return
@@ -37,7 +37,7 @@ class FavoriteListViewModel(
     }
 
     sealed class FavoriteListNavigation {
-        data class ShowCharacterList(val characterList: List<CharacterEntity>) : FavoriteListNavigation()
+        data class ShowCharacterList(val characterList: List<Character>) : FavoriteListNavigation()
         object ShowEmptyList : FavoriteListNavigation()
 
     }

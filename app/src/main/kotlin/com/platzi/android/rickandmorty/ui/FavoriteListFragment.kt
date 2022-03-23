@@ -15,8 +15,8 @@ import com.platzi.android.rickandmorty.api.APIConstants.BASE_API_URL
 import com.platzi.android.rickandmorty.api.CharacterRequest
 import com.platzi.android.rickandmorty.database.CharacterDao
 import com.platzi.android.rickandmorty.database.CharacterDatabase
-import com.platzi.android.rickandmorty.database.CharacterEntity
 import com.platzi.android.rickandmorty.databinding.FragmentFavoriteListBinding
+import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.presentation.FavoriteListViewModel
 import com.platzi.android.rickandmorty.usecases.GetAllFavoriteCharactersUseCase
 import com.platzi.android.rickandmorty.utils.setItemDecorationSpacing
@@ -59,16 +59,16 @@ class FavoriteListFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
 
         return DataBindingUtil.inflate<FragmentFavoriteListBinding>(
-            inflater,
-            R.layout.fragment_favorite_list,
-            container,
-            false
+                inflater,
+                R.layout.fragment_favorite_list,
+                container,
+                false
         ).apply {
             lifecycleOwner = this@FavoriteListFragment
         }.root
@@ -78,7 +78,7 @@ class FavoriteListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         favoriteListAdapter = FavoriteListAdapter { character ->
-            listener.openCharacterDetail(character)
+            listener.openFavoriteCharacterDetail(character)
         }
         favoriteListAdapter.setHasStableIds(true)
 
@@ -116,7 +116,7 @@ class FavoriteListFragment : Fragment() {
     //region Inner Classes & Interfaces
 
     interface OnFavoriteListFragmentListener {
-        fun openCharacterDetail(character: CharacterEntity)
+        fun openFavoriteCharacterDetail(character: Character)
     }
 
     //endregion

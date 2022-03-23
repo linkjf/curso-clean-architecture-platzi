@@ -14,8 +14,8 @@ import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.CharacterGridAdapter
 import com.platzi.android.rickandmorty.api.APIConstants.BASE_API_URL
 import com.platzi.android.rickandmorty.api.CharacterRequest
-import com.platzi.android.rickandmorty.api.CharacterServer
 import com.platzi.android.rickandmorty.databinding.FragmentCharacterListBinding
+import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.presentation.CharacterListViewModel
 import com.platzi.android.rickandmorty.usecases.GetAllCharacterUseCase
 import com.platzi.android.rickandmorty.utils.setItemDecorationSpacing
@@ -69,16 +69,16 @@ class CharacterListFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         return DataBindingUtil.inflate<FragmentCharacterListBinding>(
-            inflater,
-            R.layout.fragment_character_list,
-            container,
-            false
+                inflater,
+                R.layout.fragment_character_list,
+                container,
+                false
         ).apply {
             lifecycleOwner = this@CharacterListFragment
         }.root
@@ -141,7 +141,7 @@ class CharacterListFragment : Fragment() {
     //region Inner Classes & Interfaces
 
     interface OnCharacterListFragmentListener {
-        fun openCharacterDetail(character: CharacterServer)
+        fun openCharacterDetail(character: Character)
     }
 
     //endregion
