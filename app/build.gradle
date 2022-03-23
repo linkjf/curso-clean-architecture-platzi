@@ -44,6 +44,9 @@ androidExtensions {
 }
 
 dependencies {
+
+    implementation project(":domain")
+
     //Kotlin
     implementation kotlinLib
 
@@ -73,6 +76,8 @@ dependencies {
     //RxJava
     implementation rxAndroidLib
     implementation rxJavaLib
+
+    implementation reactiveStreamsLib
 
     // View
     implementation appCompatLib
