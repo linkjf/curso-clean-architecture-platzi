@@ -20,8 +20,13 @@ class Entities {
     )
 
     data class Location(
-        val name:String,
+        val name: String,
         val url: String
+    )
+
+    data class Episode(
+        val id: Int,
+        val name: String
     )
 }
 

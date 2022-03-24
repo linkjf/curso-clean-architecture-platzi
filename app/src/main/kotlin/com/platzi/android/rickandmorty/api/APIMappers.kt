@@ -1,8 +1,6 @@
 package com.platzi.android.rickandmorty.api
 
-import com.platzi.android.rickandmorty.domain.Entities.Character
-import com.platzi.android.rickandmorty.domain.Entities.Location
-import com.platzi.android.rickandmorty.domain.Entities.Origin
+import com.platzi.android.rickandmorty.domain.Entities.*
 
 fun CharacterResponseServer.toCharacterDomainList(): List<Character> = results.map {
     it.run {
@@ -29,4 +27,9 @@ fun OriginServer.toOriginDomain() = Origin(
 fun LocationServer.toLocationDomain() = Location(
     name,
     url
+)
+
+fun EpisodeServer.toEpisodeDomain() = Episode(
+    id,
+    name
 )

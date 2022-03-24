@@ -3,6 +3,7 @@ package com.platzi.android.rickandmorty.presentation
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.platzi.android.rickandmorty.api.EpisodeServer
+import com.platzi.android.rickandmorty.domain.Entities.Episode
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.usecases.GetEpisodeFromCharacterUseCase
 import com.platzi.android.rickandmorty.usecases.GetFavoriteCharacterUseCase
@@ -79,7 +80,7 @@ class CharacterDetailViewModel(
     }
 
     sealed class CharacterDetailNavigation {
-        data class ShowCharacterDetailsEpisodes(val episodeList: List<EpisodeServer>) : CharacterDetailNavigation()
+        data class ShowCharacterDetailsEpisodes(val episodeList: List<Episode>) : CharacterDetailNavigation()
         data class ShowCharacterDetailsError(val error: Throwable) : CharacterDetailNavigation()
         object ShowLoading : CharacterDetailNavigation()
         object HideLoading : CharacterDetailNavigation()
