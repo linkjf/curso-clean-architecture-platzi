@@ -16,6 +16,8 @@ import com.platzi.android.rickandmorty.api.APIConstants.BASE_API_URL
 import com.platzi.android.rickandmorty.api.CharacterRequest
 import com.platzi.android.rickandmorty.api.CharacterRetrofitDataSource
 import com.platzi.android.rickandmorty.data.CharacterRepository
+import com.platzi.android.rickandmorty.database.CharacterDatabase
+import com.platzi.android.rickandmorty.database.CharacterRoomDataSource
 import com.platzi.android.rickandmorty.databinding.FragmentCharacterListBinding
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.presentation.CharacterListViewModel
@@ -38,8 +40,13 @@ class CharacterListFragment : Fragment() {
     private val remoteCharacterDataSource by lazy {
         CharacterRetrofitDataSource(characterRequest)
     }
+
+    private val characterRoomDataSource by lazy {
+        CharacterRoomDataSource(CharacterDatabase.getDatabase(context?.applicationContext!!))
+    }
+
     private val characterRepository by lazy {
-        CharacterRepository(remoteCharacterDataSource)
+        CharacterRepository(remoteCharacterDataSource, characterRoomDataSource)
     }
 
     private val characterUseCase by lazy {

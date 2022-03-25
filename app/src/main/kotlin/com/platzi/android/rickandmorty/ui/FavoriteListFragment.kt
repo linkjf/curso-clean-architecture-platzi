@@ -13,8 +13,10 @@ import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.FavoriteListAdapter
 import com.platzi.android.rickandmorty.api.APIConstants.BASE_API_URL
 import com.platzi.android.rickandmorty.api.CharacterRequest
-import com.platzi.android.rickandmorty.database.CharacterDao
+import com.platzi.android.rickandmorty.api.CharacterRetrofitDataSource
+import com.platzi.android.rickandmorty.data.CharacterRepository
 import com.platzi.android.rickandmorty.database.CharacterDatabase
+import com.platzi.android.rickandmorty.database.CharacterRoomDataSource
 import com.platzi.android.rickandmorty.databinding.FragmentFavoriteListBinding
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.presentation.FavoriteListViewModel
@@ -26,7 +28,6 @@ class FavoriteListFragment : Fragment() {
 
     //region Fields
 
-
     private lateinit var favoriteListAdapter: FavoriteListAdapter
     private lateinit var listener: OnFavoriteListFragmentListener
 
@@ -34,12 +35,20 @@ class FavoriteListFragment : Fragment() {
         CharacterRequest(BASE_API_URL)
     }
 
-    private val characterDao: CharacterDao by lazy {
-        CharacterDatabase.getDatabase(context?.applicationContext!!).characterDao()
+    private val remoteCharacterDataSource by lazy {
+        CharacterRetrofitDataSource(characterRequest)
+    }
+
+    private val characterRoomDataSource by lazy {
+        CharacterRoomDataSource(CharacterDatabase.getDatabase(context?.applicationContext!!))
+    }
+
+    private val characterRepository by lazy {
+        CharacterRepository(remoteCharacterDataSource, characterRoomDataSource)
     }
 
     private val getAllFavoriteCharactersUseCase by lazy {
-        GetAllFavoriteCharactersUseCase(characterDao)
+        GetAllFavoriteCharactersUseCase(characterRepository)
     }
     private val favoriteListViewModel: FavoriteListViewModel by lazy {
         FavoriteListViewModel(getAllFavoriteCharactersUseCase)
@@ -59,16 +68,16 @@ class FavoriteListFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
 
         return DataBindingUtil.inflate<FragmentFavoriteListBinding>(
-                inflater,
-                R.layout.fragment_favorite_list,
-                container,
-                false
+            inflater,
+            R.layout.fragment_favorite_list,
+            container,
+            false
         ).apply {
             lifecycleOwner = this@FavoriteListFragment
         }.root

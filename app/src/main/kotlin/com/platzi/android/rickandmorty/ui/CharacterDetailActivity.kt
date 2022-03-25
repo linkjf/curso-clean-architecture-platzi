@@ -9,9 +9,14 @@ import androidx.lifecycle.Observer
 import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.EpisodeListAdapter
 import com.platzi.android.rickandmorty.api.APIConstants.BASE_API_URL
+import com.platzi.android.rickandmorty.api.CharacterRequest
+import com.platzi.android.rickandmorty.api.CharacterRetrofitDataSource
 import com.platzi.android.rickandmorty.api.EpisodeRequest
-import com.platzi.android.rickandmorty.database.CharacterDao
+import com.platzi.android.rickandmorty.api.EpisodeRetrofitDataSource
+import com.platzi.android.rickandmorty.data.CharacterRepository
+import com.platzi.android.rickandmorty.data.EpisodeRepository
 import com.platzi.android.rickandmorty.database.CharacterDatabase
+import com.platzi.android.rickandmorty.database.CharacterRoomDataSource
 import com.platzi.android.rickandmorty.databinding.ActivityCharacterDetailBinding
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.parcelable.CharacterParcelable
@@ -31,24 +36,47 @@ class CharacterDetailActivity : AppCompatActivity() {
     private lateinit var episodeListAdapter: EpisodeListAdapter
     private lateinit var binding: ActivityCharacterDetailBinding
 
-    private val characterDao: CharacterDao by lazy {
-        CharacterDatabase.getDatabase(application).characterDao()
-    }
-
     private val episodeRequest: EpisodeRequest by lazy {
         EpisodeRequest(BASE_API_URL)
     }
 
+    private val episodeRetrofitDataSource by lazy {
+        EpisodeRetrofitDataSource(episodeRequest)
+    }
+
+    private val episodeRepository by lazy {
+        EpisodeRepository(episodeRetrofitDataSource)
+    }
+
+    private val characterRequest by lazy {
+        CharacterRequest(BASE_API_URL)
+    }
+
+    private val characterRoomDataSource by lazy {
+        CharacterRoomDataSource(CharacterDatabase.getDatabase(application))
+    }
+
+    private val characterRetrofitDataSource by lazy {
+        CharacterRetrofitDataSource(characterRequest)
+    }
+
+    private val characterRepository by lazy {
+        CharacterRepository(
+            characterRetrofitDataSource,
+            characterRoomDataSource
+        )
+    }
+
     private val getEpisodeFromCharacterUseCase by lazy {
-        GetEpisodeFromCharacterUseCase(episodeRequest)
+        GetEpisodeFromCharacterUseCase(episodeRepository)
     }
 
     private val setFavoriteUseCase by lazy {
-        SetFavoriteUseCase(characterDao)
+        SetFavoriteUseCase(characterRepository)
     }
 
     private val getFavoriteCharacterUseCase by lazy {
-        GetFavoriteCharacterUseCase(characterDao)
+        GetFavoriteCharacterUseCase(characterRepository)
     }
 
     private val characterDetailViewModel: CharacterDetailViewModel by lazy {
