@@ -14,6 +14,8 @@ import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.CharacterGridAdapter
 import com.platzi.android.rickandmorty.api.APIConstants.BASE_API_URL
 import com.platzi.android.rickandmorty.api.CharacterRequest
+import com.platzi.android.rickandmorty.api.CharacterRetrofitDataSource
+import com.platzi.android.rickandmorty.data.CharacterRepository
 import com.platzi.android.rickandmorty.databinding.FragmentCharacterListBinding
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.presentation.CharacterListViewModel
@@ -33,8 +35,15 @@ class CharacterListFragment : Fragment() {
         CharacterRequest(BASE_API_URL)
     }
 
+    private val remoteCharacterDataSource by lazy {
+        CharacterRetrofitDataSource(characterRequest)
+    }
+    private val characterRepository by lazy {
+        CharacterRepository(remoteCharacterDataSource)
+    }
+
     private val characterUseCase by lazy {
-        GetAllCharacterUseCase(characterRequest)
+        GetAllCharacterUseCase(characterRepository)
     }
 
     private val characterListViewModel: CharacterListViewModel by lazy {
@@ -69,16 +78,16 @@ class CharacterListFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         return DataBindingUtil.inflate<FragmentCharacterListBinding>(
-                inflater,
-                R.layout.fragment_character_list,
-                container,
-                false
+            inflater,
+            R.layout.fragment_character_list,
+            container,
+            false
         ).apply {
             lifecycleOwner = this@CharacterListFragment
         }.root
