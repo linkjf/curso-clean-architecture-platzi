@@ -46,20 +46,16 @@ androidExtensions {
 dependencies {
 
     implementation project(":domain")
-
     implementation project(":data")
-
     implementation project(":usecases")
+    implementation project(":framework:imagemanager")
+    implementation project(":framework:databasemanager")
 
     //Kotlin
     implementation kotlinLib
 
     //KTX
     implementation ktxLib
-
-    //Glide
-    implementation glideLib
-    annotationProcessor glideCompiler
 
     //Gson
     implementation gsonLib
@@ -71,11 +67,6 @@ dependencies {
     implementation okHttpInterceptorLib
     implementation retrofitRxJavaLib
     implementation retrofitGsonLib
-
-    //Room
-    api roomLib
-    kapt roomCompiler
-    implementation roomRxJavaLib
 
     //RxJava
     implementation rxAndroidLib

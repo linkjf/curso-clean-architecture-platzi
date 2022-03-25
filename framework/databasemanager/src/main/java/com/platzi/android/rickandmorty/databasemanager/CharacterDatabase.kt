@@ -1,10 +1,11 @@
-package com.platzi.android.rickandmorty.database
+package com.platzi.android.rickandmorty.databasemanager
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.platzi.android.rickandmorty.database.ListStringConverters
 
 @Database(entities = [CharacterEntity::class], version = 1)
 @TypeConverters(ListStringConverters::class)

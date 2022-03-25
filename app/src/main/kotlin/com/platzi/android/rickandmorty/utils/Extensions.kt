@@ -5,9 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
@@ -17,14 +15,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.platzi.android.rickandmorty.views.RecyclerViewItemDecoration
 
-fun Context.showLongToast(message: String){
+fun Context.showLongToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
-fun Context.showLongToast(@StringRes resourceId: Int){
+fun Context.showLongToast(@StringRes resourceId: Int) {
     Toast.makeText(this, resourceId, Toast.LENGTH_LONG).show()
 }
 
@@ -59,33 +56,4 @@ inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline fac
     }
 
     return ViewModelProvider(this.viewModelStore, viewModelFactory)[T::class.java]
-}
-
-fun ImageView.bindCircularImageUrl(url: String?, @DrawableRes placeholder: Int,
-                                   @DrawableRes errorPlaceholder: Int) {
-    if (url.isNullOrBlank()) {
-        setImageResource(placeholder)
-        return
-    }
-
-    Glide.with(context)
-        .load(url)
-        .error(errorPlaceholder)
-        .placeholder(placeholder)
-        .circleCrop()
-        .into(this)
-}
-
-fun ImageView.bindImageUrl(url: String?, @DrawableRes placeholder: Int,
-                           @DrawableRes errorPlaceholder: Int) {
-    if (url.isNullOrBlank()) {
-        setImageResource(placeholder)
-        return
-    }
-
-    Glide.with(context)
-        .load(url)
-        .error(errorPlaceholder)
-        .placeholder(placeholder)
-        .into(this)
 }
