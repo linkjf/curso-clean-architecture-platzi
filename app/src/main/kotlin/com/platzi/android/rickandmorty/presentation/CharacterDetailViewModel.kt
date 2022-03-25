@@ -8,13 +8,14 @@ import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.usecases.GetEpisodeFromCharacterUseCase
 import com.platzi.android.rickandmorty.usecases.GetFavoriteCharacterUseCase
 import com.platzi.android.rickandmorty.usecases.SetFavoriteUseCase
+
 import io.reactivex.disposables.CompositeDisposable
 
 class CharacterDetailViewModel(
-        private var character: Character? = null,
-        private val getEpisodeFromCharacterUseCase: GetEpisodeFromCharacterUseCase,
-        private val getFavoriteCharacterUseCase: GetFavoriteCharacterUseCase,
-        private val setFavoriteUseCase: SetFavoriteUseCase,
+    private var character: Character? = null,
+    private val getEpisodeFromCharacterUseCase: GetEpisodeFromCharacterUseCase,
+    private val getFavoriteCharacterUseCase: GetFavoriteCharacterUseCase,
+    private val setFavoriteUseCase: SetFavoriteUseCase,
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()

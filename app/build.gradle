@@ -49,6 +49,8 @@ dependencies {
 
     implementation project(":data")
 
+    implementation project(":usecases")
+
     //Kotlin
     implementation kotlinLib
 
