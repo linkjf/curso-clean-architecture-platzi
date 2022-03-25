@@ -8,11 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.EpisodeListAdapter
-import com.platzi.android.rickandmorty.api.APIConstants.BASE_API_URL
-import com.platzi.android.rickandmorty.api.CharacterRequest
-import com.platzi.android.rickandmorty.api.CharacterRetrofitDataSource
-import com.platzi.android.rickandmorty.api.EpisodeRequest
-import com.platzi.android.rickandmorty.api.EpisodeRetrofitDataSource
 import com.platzi.android.rickandmorty.data.CharacterRepository
 import com.platzi.android.rickandmorty.data.EpisodeRepository
 import com.platzi.android.rickandmorty.databasemanager.CharacterDatabase
@@ -23,6 +18,11 @@ import com.platzi.android.rickandmorty.imagemanager.bindCircularImageUrl
 import com.platzi.android.rickandmorty.parcelable.CharacterParcelable
 import com.platzi.android.rickandmorty.parcelable.toCharacterDomain
 import com.platzi.android.rickandmorty.presentation.CharacterDetailViewModel
+import com.platzi.android.rickandmorty.requestmanager.APIConstants.BASE_API_URL
+import com.platzi.android.rickandmorty.requestmanager.CharacterRequest
+import com.platzi.android.rickandmorty.requestmanager.CharacterRetrofitDataSource
+import com.platzi.android.rickandmorty.requestmanager.EpisodeRequest
+import com.platzi.android.rickandmorty.requestmanager.EpisodeRetrofitDataSource
 import com.platzi.android.rickandmorty.usecases.GetEpisodeFromCharacterUseCase
 import com.platzi.android.rickandmorty.usecases.GetFavoriteCharacterUseCase
 import com.platzi.android.rickandmorty.usecases.SetFavoriteUseCase

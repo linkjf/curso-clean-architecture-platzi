@@ -1,4 +1,4 @@
-package com.platzi.android.rickandmorty.api
+package com.platzi.android.rickandmorty.requestmanager
 
 import com.platzi.android.rickandmorty.domain.Entities.*
 
@@ -17,7 +17,6 @@ fun CharacterResponseServer.toCharacterDomainList(): List<Character> = results.m
         )
     }
 }
-
 
 fun OriginServer.toOriginDomain() = Origin(
     name,

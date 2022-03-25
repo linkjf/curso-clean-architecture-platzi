@@ -50,6 +50,7 @@ dependencies {
     implementation project(":usecases")
     implementation project(":framework:imagemanager")
     implementation project(":framework:databasemanager")
+    implementation project(":framework:requestmanager")
 
     //Kotlin
     implementation kotlinLib
