@@ -1,13 +1,12 @@
 package com.platzi.android.rickandmorty.adapters
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.databinding.ItemGridCharacterBinding
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.imagemanager.bindImageUrl
-import com.platzi.android.rickandmorty.utils.bindingInflate
-import kotlinx.android.synthetic.main.item_grid_character.view.*
 
 
 class CharacterGridAdapter(
@@ -21,11 +20,10 @@ class CharacterGridAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        CharacterGridViewHolder(
-            parent.bindingInflate(R.layout.item_grid_character, false),
-            listener
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterGridViewHolder {
+        val itemBinding = ItemGridCharacterBinding.inflate(LayoutInflater.from(parent.context))
+        return CharacterGridViewHolder(itemBinding, listener)
+    }
 
     override fun getItemCount() = characterList.size
 
@@ -43,7 +41,7 @@ class CharacterGridAdapter(
         //region Public Methods
         fun bind(item: Character) {
             dataBinding.character = item
-            itemView.character_image.bindImageUrl(
+            dataBinding.characterImage.bindImageUrl(
                 url = item.image,
                 placeholder = R.drawable.ic_camera_alt_black,
                 errorPlaceholder = R.drawable.ic_broken_image_black

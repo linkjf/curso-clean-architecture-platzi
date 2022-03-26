@@ -23,7 +23,7 @@ allprojects {
     }
 }
 
-ext{
+ext {
     //SDK & Tools
     minSdkVersion = 21
     targetSdkVersion = 31

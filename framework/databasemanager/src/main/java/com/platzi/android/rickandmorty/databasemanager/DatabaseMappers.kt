@@ -1,8 +1,6 @@
 package com.platzi.android.rickandmorty.databasemanager
 
-import com.platzi.android.rickandmorty.domain.Entities.Character
-import com.platzi.android.rickandmorty.domain.Entities.Location
-import com.platzi.android.rickandmorty.domain.Entities.Origin
+import com.platzi.android.rickandmorty.domain.Entities.*
 
 fun List<CharacterEntity>.toCharacterDomainList() = map(CharacterEntity::toCharacterDomain)
 

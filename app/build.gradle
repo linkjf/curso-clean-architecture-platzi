@@ -1,15 +1,18 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id("kotlin-parcelize")
+    id 'org.jetbrains.kotlin.kapt'
+}
+
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
+    compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
         applicationId "com.platzi.android.rickandmorty"
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
         versionCode rootProject.versionCode
         versionName rootProject.versionName
 
@@ -37,13 +40,14 @@ android {
         test.java.srcDirs += 'src/test/java'
         test.java.srcDirs += 'src/test/kotlin'
     }
-}
 
-androidExtensions {
-    experimental = true
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    implementation("com.squareup:javapoet:1.13.0") // <-- added this
 
     implementation project(":domain")
     implementation project(":data")
@@ -51,6 +55,9 @@ dependencies {
     implementation project(":framework:imagemanager")
     implementation project(":framework:databasemanager")
     implementation project(":framework:requestmanager")
+
+    implementation daggerLib
+    kapt daggerCompiler
 
     //Kotlin
     implementation kotlinLib

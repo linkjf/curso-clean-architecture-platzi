@@ -1,4 +1,4 @@
-rootProject.name='RickAndMortyPlatzi'
+rootProject.name = 'RickAndMortyPlatzi'
 include ':app'
 include ':domain'
 include ':data'

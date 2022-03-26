@@ -9,7 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 private const val PAGE_SIZE = 20
 
 class CharacterListViewModel(
-        private val getAllCharacterUseCase: GetAllCharacterUseCase
+    private val getAllCharacterUseCase: GetAllCharacterUseCase
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()
@@ -36,9 +36,9 @@ class CharacterListViewModel(
     }
 
     private fun isInFooter(
-            visibleItemCount: Int,
-            firstVisibleItemPosition: Int,
-            totalItemCount: Int
+        visibleItemCount: Int,
+        firstVisibleItemPosition: Int,
+        totalItemCount: Int
     ): Boolean {
         return visibleItemCount + firstVisibleItemPosition >= totalItemCount
                 && firstVisibleItemPosition >= 0
@@ -56,22 +56,22 @@ class CharacterListViewModel(
 
     fun onGetAllCharacters() {
         disposable.add(
-                getAllCharacterUseCase
-                        .invoke(currentPage)
-                        .doOnSubscribe {
-                            _events.value = Event(CharacterListNavigation.ShowLoading)
-                        }
-                        .subscribe({ characterList ->
-                            if (characterList.size < PAGE_SIZE) {
-                                isLastPage = true
-                            }
-                            _events.value = Event(CharacterListNavigation.HideLoading)
-                            _events.value = Event(CharacterListNavigation.ShowCharacterList(characterList))
-                        }, { error ->
-                            isLastPage = true
-                            _events.value = Event(CharacterListNavigation.HideLoading)
-                            _events.value = Event(CharacterListNavigation.ShowCharacterError(error))
-                        })
+            getAllCharacterUseCase
+                .invoke(currentPage)
+                .doOnSubscribe {
+                    _events.value = Event(CharacterListNavigation.ShowLoading)
+                }
+                .subscribe({ characterList ->
+                    if (characterList.size < PAGE_SIZE) {
+                        isLastPage = true
+                    }
+                    _events.value = Event(CharacterListNavigation.HideLoading)
+                    _events.value = Event(CharacterListNavigation.ShowCharacterList(characterList))
+                }, { error ->
+                    isLastPage = true
+                    _events.value = Event(CharacterListNavigation.HideLoading)
+                    _events.value = Event(CharacterListNavigation.ShowCharacterError(error))
+                })
         )
     }
 

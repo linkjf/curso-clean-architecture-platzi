@@ -11,47 +11,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.FavoriteListAdapter
-import com.platzi.android.rickandmorty.data.CharacterRepository
-import com.platzi.android.rickandmorty.databasemanager.CharacterDatabase
-import com.platzi.android.rickandmorty.databasemanager.CharacterRoomDataSource
 import com.platzi.android.rickandmorty.databinding.FragmentFavoriteListBinding
+import com.platzi.android.rickandmorty.di.FavoriteListModule
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.presentation.FavoriteListViewModel
-import com.platzi.android.rickandmorty.requestmanager.APIConstants.BASE_API_URL
-import com.platzi.android.rickandmorty.requestmanager.CharacterRequest
-import com.platzi.android.rickandmorty.requestmanager.CharacterRetrofitDataSource
-import com.platzi.android.rickandmorty.usecases.GetAllFavoriteCharactersUseCase
+import com.platzi.android.rickandmorty.utils.app
+import com.platzi.android.rickandmorty.utils.getViewModel
 import com.platzi.android.rickandmorty.utils.setItemDecorationSpacing
-import kotlinx.android.synthetic.main.fragment_favorite_list.*
 
 class FavoriteListFragment : Fragment() {
 
     //region Fields
 
+    private lateinit var _binding: FragmentFavoriteListBinding
     private lateinit var favoriteListAdapter: FavoriteListAdapter
     private lateinit var listener: OnFavoriteListFragmentListener
 
-    private val characterRequest: CharacterRequest by lazy {
-        CharacterRequest(BASE_API_URL)
-    }
+    lateinit var favoriteListComponent: FavoriteListModule.FavoriteListComponent
 
-    private val remoteCharacterDataSource by lazy {
-        CharacterRetrofitDataSource(characterRequest)
-    }
-
-    private val characterRoomDataSource by lazy {
-        CharacterRoomDataSource(CharacterDatabase.getDatabase(context?.applicationContext!!))
-    }
-
-    private val characterRepository by lazy {
-        CharacterRepository(remoteCharacterDataSource, characterRoomDataSource)
-    }
-
-    private val getAllFavoriteCharactersUseCase by lazy {
-        GetAllFavoriteCharactersUseCase(characterRepository)
-    }
     private val favoriteListViewModel: FavoriteListViewModel by lazy {
-        FavoriteListViewModel(getAllFavoriteCharactersUseCase)
+        getViewModel { favoriteListComponent.favoriteListViewModel }
     }
 
     //endregion
@@ -67,20 +46,25 @@ class FavoriteListFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        favoriteListComponent = requireContext().app.component.inject(FavoriteListModule())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        return DataBindingUtil.inflate<FragmentFavoriteListBinding>(
+        _binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_favorite_list,
             container,
             false
-        ).apply {
-            lifecycleOwner = this@FavoriteListFragment
-        }.root
+        )
+        _binding.lifecycleOwner = this@FavoriteListFragment
+        return _binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,7 +75,7 @@ class FavoriteListFragment : Fragment() {
         }
         favoriteListAdapter.setHasStableIds(true)
 
-        rvFavoriteList.run {
+        _binding.rvFavoriteList.run {
             setItemDecorationSpacing(resources.getDimension(R.dimen.list_item_padding))
             adapter = favoriteListAdapter
         }
@@ -108,11 +92,11 @@ class FavoriteListFragment : Fragment() {
             events?.getContentIfNotHandled()?.let { navigation ->
                 when (navigation) {
                     is FavoriteListViewModel.FavoriteListNavigation.ShowCharacterList -> {
-                        tvEmptyListMessage.isVisible = false
+                        _binding.tvEmptyListMessage.isVisible = false
                         favoriteListAdapter.updateData(navigation.characterList)
                     }
                     FavoriteListViewModel.FavoriteListNavigation.ShowEmptyList -> {
-                        tvEmptyListMessage.isVisible = true
+                        _binding.tvEmptyListMessage.isVisible = true
                         favoriteListAdapter.updateData(emptyList())
                     }
                 }

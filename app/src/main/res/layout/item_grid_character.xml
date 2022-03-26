@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="character"
             type="com.platzi.android.rickandmorty.domain.Entities.Character" />
@@ -28,7 +29,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@mipmap/ic_launcher_round"/>
+                tools:src="@mipmap/ic_launcher_round" />
 
             <TextView
                 style="@style/CharacterListItemName"
@@ -37,7 +38,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="Rick Sanchez"/>
+                tools:text="Rick Sanchez" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,7 +8,6 @@ class CharacterRepository(
 ) {
     fun getAllCharacters(page: Int) = remoteCharacterDataSource.getAllCharacters(page)
 
-
     fun getAllFavoriteCharacters() = localCharacterDataSource.getAllFavoriteCharacters()
 
     fun getFavoriteCharacterStatus(id: Int) = localCharacterDataSource.getFavoriteCharacterStatus(id)

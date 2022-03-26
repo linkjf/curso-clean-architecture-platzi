@@ -2,12 +2,11 @@ package com.platzi.android.rickandmorty.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.platzi.android.rickandmorty.domain.Entities.Episode
 import com.platzi.android.rickandmorty.domain.Entities.Character
+import com.platzi.android.rickandmorty.domain.Entities.Episode
 import com.platzi.android.rickandmorty.usecases.GetEpisodeFromCharacterUseCase
 import com.platzi.android.rickandmorty.usecases.GetFavoriteCharacterUseCase
 import com.platzi.android.rickandmorty.usecases.SetFavoriteUseCase
-
 import io.reactivex.disposables.CompositeDisposable
 
 class CharacterDetailViewModel(
@@ -40,37 +39,37 @@ class CharacterDetailViewModel(
 
     private fun onValidateFavoriteCharacterStatus(characterId: Int) {
         disposable.add(
-                getFavoriteCharacterUseCase.invoke(characterId)
-                        .subscribe { isFavorite ->
-                            _isFavorite.value = isFavorite
-                        }
+            getFavoriteCharacterUseCase.invoke(characterId)
+                .subscribe { isFavorite ->
+                    _isFavorite.value = isFavorite
+                }
         )
     }
 
     private fun onShowEpisodeList(episodeUrlList: List<String>) {
         disposable.add(
-                getEpisodeFromCharacterUseCase.invoke(episodeUrlList)
-                        .doOnSubscribe {
-                            _events.value = Event(CharacterDetailNavigation.ShowLoading)
-                        }
-                        .subscribe(
-                                { episodeList ->
-                                    _events.value = Event(CharacterDetailNavigation.HideLoading)
-                                    _events.value = Event(CharacterDetailNavigation.ShowCharacterDetailsEpisodes(episodeList))
-                                },
-                                { error ->
-                                    _events.value = Event(CharacterDetailNavigation.HideLoading)
-                                    _events.value = Event(CharacterDetailNavigation.ShowCharacterDetailsError(error))
-                                })
+            getEpisodeFromCharacterUseCase.invoke(episodeUrlList)
+                .doOnSubscribe {
+                    _events.value = Event(CharacterDetailNavigation.ShowLoading)
+                }
+                .subscribe(
+                    { episodeList ->
+                        _events.value = Event(CharacterDetailNavigation.HideLoading)
+                        _events.value = Event(CharacterDetailNavigation.ShowCharacterDetailsEpisodes(episodeList))
+                    },
+                    { error ->
+                        _events.value = Event(CharacterDetailNavigation.HideLoading)
+                        _events.value = Event(CharacterDetailNavigation.ShowCharacterDetailsError(error))
+                    })
         )
     }
 
     fun onUpdateFavoriteCharacterStatus() {
         disposable.add(
-                setFavoriteUseCase.invoke(character!!)
-                        .subscribe { isFavorite ->
-                            _isFavorite.value = isFavorite
-                        }
+            setFavoriteUseCase.invoke(character!!)
+                .subscribe { isFavorite ->
+                    _isFavorite.value = isFavorite
+                }
         )
     }
 

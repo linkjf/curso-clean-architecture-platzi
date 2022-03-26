@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="episode"
             type="com.platzi.android.rickandmorty.domain.Entities.Episode" />

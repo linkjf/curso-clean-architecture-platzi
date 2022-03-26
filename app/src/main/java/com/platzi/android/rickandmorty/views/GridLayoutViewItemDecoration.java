@@ -1,10 +1,10 @@
 package com.platzi.android.rickandmorty.views;
 
+import static java.lang.Math.ceil;
+
 import android.graphics.Rect;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-
-import static java.lang.Math.ceil;
 
 class GridLayoutViewItemDecoration {
 
@@ -20,15 +20,15 @@ class GridLayoutViewItemDecoration {
 
         outRect.top = space;
         outRect.left = space;
-        if(position % cols == cols - 1) {
+        if (position % cols == cols - 1) {
             outRect.right = space;
-        }else {
+        } else {
             outRect.right = 0;
         }
 
-        if(position / cols == rows - 1) {
+        if (position / cols == rows - 1) {
             outRect.bottom = space;
-        }else {
+        } else {
             outRect.bottom = 0;
         }
     }

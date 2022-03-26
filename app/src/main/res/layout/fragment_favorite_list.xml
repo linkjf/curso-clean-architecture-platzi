@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_grid_character"
-            tools:itemCount="6"/>
+            tools:itemCount="6" />
 
         <TextView
             android:id="@+id/tvEmptyListMessage"

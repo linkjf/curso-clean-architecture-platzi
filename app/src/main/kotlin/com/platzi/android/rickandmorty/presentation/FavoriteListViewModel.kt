@@ -9,7 +9,7 @@ import com.platzi.android.rickandmorty.usecases.GetAllFavoriteCharactersUseCase
 import io.reactivex.disposables.CompositeDisposable
 
 class FavoriteListViewModel(
-        private val getAllFavoriteCharactersUseCase: GetAllFavoriteCharactersUseCase
+    private val getAllFavoriteCharactersUseCase: GetAllFavoriteCharactersUseCase
 ) : ViewModel() {
 
     private val disposable = CompositeDisposable()

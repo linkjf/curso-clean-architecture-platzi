@@ -12,7 +12,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
     private final int space;
 
-    public RecyclerViewItemDecoration(int space){
+    public RecyclerViewItemDecoration(int space) {
         this.space = space;
     }
 
@@ -24,7 +24,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             @NonNull RecyclerView.State state
     ) {
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
-        if(layoutManager instanceof GridLayoutManager) {
+        if (layoutManager instanceof GridLayoutManager) {
             GridLayoutViewItemDecoration.getItemOffsets(
                     outRect,
                     (GridLayoutManager) layoutManager,
@@ -32,7 +32,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     state.getItemCount(),
                     space
             );
-        }else if(layoutManager instanceof LinearLayoutManager) {
+        } else if (layoutManager instanceof LinearLayoutManager) {
             LinearLayoutViewItemDecoration.getItemOffsets(
                     outRect,
                     (LinearLayoutManager) layoutManager,

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk rootProject.compileSdkVersion
 
     defaultConfig {
-        minSdk 19
-        targetSdk 32
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -31,6 +31,8 @@ android {
 }
 
 dependencies {
+    implementation("com.squareup:javapoet:1.13.0") // <-- added this
+
     implementation project(":data")
     implementation project(":domain")
 
@@ -47,4 +49,7 @@ dependencies {
     api roomLib
     kapt roomCompiler
     implementation roomRxJavaLib
+
+    implementation daggerLib
+    kapt daggerCompiler
 }

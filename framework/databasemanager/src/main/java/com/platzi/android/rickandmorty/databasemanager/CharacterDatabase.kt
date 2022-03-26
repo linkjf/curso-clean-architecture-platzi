@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.platzi.android.rickandmorty.database.ListStringConverters
 
-@Database(entities = [CharacterEntity::class], version = 1)
+@Database(entities = [CharacterEntity::class], version = 1, exportSchema = false)
 @TypeConverters(ListStringConverters::class)
 abstract class CharacterDatabase : RoomDatabase() {
 

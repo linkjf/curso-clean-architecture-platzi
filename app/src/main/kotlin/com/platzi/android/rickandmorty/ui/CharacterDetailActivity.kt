@@ -8,84 +8,27 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.EpisodeListAdapter
-import com.platzi.android.rickandmorty.data.CharacterRepository
-import com.platzi.android.rickandmorty.data.EpisodeRepository
-import com.platzi.android.rickandmorty.databasemanager.CharacterDatabase
-import com.platzi.android.rickandmorty.databasemanager.CharacterRoomDataSource
 import com.platzi.android.rickandmorty.databinding.ActivityCharacterDetailBinding
+import com.platzi.android.rickandmorty.di.CharacterDetailModule
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.imagemanager.bindCircularImageUrl
 import com.platzi.android.rickandmorty.parcelable.CharacterParcelable
 import com.platzi.android.rickandmorty.parcelable.toCharacterDomain
 import com.platzi.android.rickandmorty.presentation.CharacterDetailViewModel
-import com.platzi.android.rickandmorty.requestmanager.APIConstants.BASE_API_URL
-import com.platzi.android.rickandmorty.requestmanager.CharacterRequest
-import com.platzi.android.rickandmorty.requestmanager.CharacterRetrofitDataSource
-import com.platzi.android.rickandmorty.requestmanager.EpisodeRequest
-import com.platzi.android.rickandmorty.requestmanager.EpisodeRetrofitDataSource
-import com.platzi.android.rickandmorty.usecases.GetEpisodeFromCharacterUseCase
-import com.platzi.android.rickandmorty.usecases.GetFavoriteCharacterUseCase
-import com.platzi.android.rickandmorty.usecases.SetFavoriteUseCase
 import com.platzi.android.rickandmorty.utils.Constants
+import com.platzi.android.rickandmorty.utils.app
+import com.platzi.android.rickandmorty.utils.getViewModel
 import com.platzi.android.rickandmorty.utils.showLongToast
-import kotlinx.android.synthetic.main.activity_character_detail.*
 
 class CharacterDetailActivity : AppCompatActivity() {
 
     //region Fields
     private lateinit var episodeListAdapter: EpisodeListAdapter
     private lateinit var binding: ActivityCharacterDetailBinding
-
-    private val episodeRequest: EpisodeRequest by lazy {
-        EpisodeRequest(BASE_API_URL)
-    }
-
-    private val episodeRetrofitDataSource by lazy {
-        EpisodeRetrofitDataSource(episodeRequest)
-    }
-
-    private val episodeRepository by lazy {
-        EpisodeRepository(episodeRetrofitDataSource)
-    }
-
-    private val characterRequest by lazy {
-        CharacterRequest(BASE_API_URL)
-    }
-
-    private val characterRoomDataSource by lazy {
-        CharacterRoomDataSource(CharacterDatabase.getDatabase(application))
-    }
-
-    private val characterRetrofitDataSource by lazy {
-        CharacterRetrofitDataSource(characterRequest)
-    }
-
-    private val characterRepository by lazy {
-        CharacterRepository(
-            characterRetrofitDataSource,
-            characterRoomDataSource
-        )
-    }
-
-    private val getEpisodeFromCharacterUseCase by lazy {
-        GetEpisodeFromCharacterUseCase(episodeRepository)
-    }
-
-    private val setFavoriteUseCase by lazy {
-        SetFavoriteUseCase(characterRepository)
-    }
-
-    private val getFavoriteCharacterUseCase by lazy {
-        GetFavoriteCharacterUseCase(characterRepository)
-    }
+    private lateinit var characterDetailComponent: CharacterDetailModule.CharacterDetailComponent
 
     private val characterDetailViewModel: CharacterDetailViewModel by lazy {
-        CharacterDetailViewModel(
-            intent.getParcelableExtra<CharacterParcelable>(Constants.EXTRA_CHARACTER)?.toCharacterDomain(),
-            getEpisodeFromCharacterUseCase,
-            getFavoriteCharacterUseCase,
-            setFavoriteUseCase
-        )
+        getViewModel { characterDetailComponent.characterDetailViewModel }
     }
 
     //endregion
@@ -94,19 +37,24 @@ class CharacterDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_character_detail)
         binding.lifecycleOwner = this@CharacterDetailActivity
+
+        characterDetailComponent = this.app.component.inject(
+            CharacterDetailModule(
+                intent.getParcelableExtra<CharacterParcelable>(Constants.EXTRA_CHARACTER)?.toCharacterDomain()!!
+            )
+        )
 
         setUpObservers()
 
         episodeListAdapter = EpisodeListAdapter { episode ->
             this@CharacterDetailActivity.showLongToast("Episode -> $episode")
         }
-        rvEpisodeList.adapter = episodeListAdapter
+        binding.rvEpisodeList.adapter = episodeListAdapter
 
         characterDetailViewModel.onCharacterValidation()
-        characterFavorite.setOnClickListener { characterDetailViewModel.onUpdateFavoriteCharacterStatus() }
+        binding.characterFavorite.setOnClickListener { characterDetailViewModel.onUpdateFavoriteCharacterStatus() }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -144,7 +92,7 @@ class CharacterDetailActivity : AppCompatActivity() {
 
 
     private fun updateFavoriteIcon(isFavorite: Boolean?) {
-        characterFavorite.setImageResource(
+        binding.characterFavorite.setImageResource(
             if (isFavorite != null && isFavorite) {
                 R.drawable.ic_favorite
             } else {
@@ -164,10 +112,10 @@ class CharacterDetailActivity : AppCompatActivity() {
                         this.showLongToast("Error")
                     }
                     CharacterDetailViewModel.CharacterDetailNavigation.ShowLoading -> {
-                        episodeProgressBar.isVisible = true
+                        binding.episodeProgressBar.isVisible = true
                     }
                     CharacterDetailViewModel.CharacterDetailNavigation.HideLoading -> {
-                        episodeProgressBar.isVisible = false
+                        binding.episodeProgressBar.isVisible = false
                     }
                 }
             }

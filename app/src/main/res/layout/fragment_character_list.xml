@@ -26,7 +26,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/item_grid_character"
-                tools:itemCount="12"/>
+                tools:itemCount="12" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
