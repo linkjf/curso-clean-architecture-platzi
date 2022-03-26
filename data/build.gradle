@@ -31,8 +31,6 @@ android {
 }
 
 dependencies {
-    implementation("com.squareup:javapoet:1.13.0") // <-- added this
-
     implementation project(":domain")
 
     implementation kotlinLib
@@ -40,4 +38,11 @@ dependencies {
 
     implementation daggerLib
     kapt daggerCompiler
+
+    //Testing
+    testImplementation jUnitLib
+    testImplementation coreTestingLib
+    testImplementation coreArchTestingLib
+    testImplementation mockitoLib
+    testImplementation mockitoInlineLib
 }

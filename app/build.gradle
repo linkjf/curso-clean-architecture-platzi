@@ -47,8 +47,6 @@ android {
 }
 
 dependencies {
-    implementation("com.squareup:javapoet:1.13.0") // <-- added this
-
     implementation project(":domain")
     implementation project(":data")
     implementation project(":usecases")
@@ -89,4 +87,11 @@ dependencies {
     implementation recyclerViewLib
     implementation swipeRefreshLayoutLib
     implementation viewPagerLib
+
+    //Testing
+    testImplementation jUnitLib
+    testImplementation coreTestingLib
+    testImplementation coreArchTestingLib
+    testImplementation mockitoLib
+    testImplementation mockitoInlineLib
 }

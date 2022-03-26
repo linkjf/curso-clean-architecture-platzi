@@ -32,8 +32,6 @@ android {
 }
 
 dependencies {
-    implementation("com.squareup:javapoet:1.13.0") // <-- added this
-
     implementation project(":data")
     implementation project(":domain")
 

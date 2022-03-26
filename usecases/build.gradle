@@ -31,8 +31,6 @@ android {
 }
 
 dependencies {
-    implementation("com.squareup:javapoet:1.13.0") // <-- added this
-
     implementation project(":domain")
     implementation project(":data")
 
@@ -42,4 +40,11 @@ dependencies {
     implementation kotlinLib
 
     implementation rxAndroidLib
+
+    //Testing
+    testImplementation coreTestingLib
+    testImplementation jUnitLib
+    testImplementation mockitoLib
+    testImplementation mockitoInlineLib
+
 }
