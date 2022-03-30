@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id("kotlin-parcelize")
     id 'org.jetbrains.kotlin.kapt'
+    id("dagger.hilt.android.plugin")
 }
 
 
@@ -50,6 +51,7 @@ dependencies {
     implementation project(":domain")
     implementation project(":data")
     implementation project(":usecases")
+    implementation project(":framework:di")
     implementation project(":framework:imagemanager")
     implementation project(":framework:databasemanager")
     implementation project(":framework:requestmanager")
@@ -62,6 +64,11 @@ dependencies {
 
     //KTX
     implementation ktxLib
+    implementation fragmentKtxLib
+
+    //Hilt
+    implementation hiltLib
+    kapt hiltCompiler
 
     //Gson
     implementation gsonLib
@@ -95,3 +102,9 @@ dependencies {
     testImplementation mockitoLib
     testImplementation mockitoInlineLib
 }
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
+}
+

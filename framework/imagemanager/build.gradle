@@ -36,7 +36,4 @@ dependencies {
     //Glide
     implementation glideLib
     annotationProcessor glideCompiler
-
-    implementation daggerLib
-    kapt daggerCompiler
 }

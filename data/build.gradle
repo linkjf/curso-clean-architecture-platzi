@@ -36,9 +36,6 @@ dependencies {
     implementation kotlinLib
     implementation rxAndroidLib
 
-    implementation daggerLib
-    kapt daggerCompiler
-
     //Testing
     testImplementation jUnitLib
     testImplementation coreTestingLib

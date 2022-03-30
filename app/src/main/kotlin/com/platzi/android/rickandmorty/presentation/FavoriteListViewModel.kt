@@ -6,9 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.usecases.GetAllFavoriteCharactersUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class FavoriteListViewModel(
+@HiltViewModel
+class FavoriteListViewModel @Inject constructor(
     private val getAllFavoriteCharactersUseCase: GetAllFavoriteCharactersUseCase
 ) : ViewModel() {
 

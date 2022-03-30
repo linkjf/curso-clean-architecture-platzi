@@ -16,7 +16,6 @@ class GetAllFavoriteCharactersUseCase(private val characterRepository: Character
 }
 
 class GetEpisodeFromCharacterUseCase(private val episodeRepository: EpisodeRepository) {
-
     fun invoke(episodeList: List<String>): Single<List<Entities.Episode>> = episodeRepository.getCharacterEpisodes(episodeList)
 }
 

@@ -1,6 +1,6 @@
-package com.platzi.android.rickandmorty.data
+package com.platzi.android.rickandmorty.di
 
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Test
 
 /**

@@ -4,11 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.usecases.GetAllCharacterUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
 private const val PAGE_SIZE = 20
 
-class CharacterListViewModel(
+@HiltViewModel
+class CharacterListViewModel @Inject constructor(
     private val getAllCharacterUseCase: GetAllCharacterUseCase
 ) : ViewModel() {
 

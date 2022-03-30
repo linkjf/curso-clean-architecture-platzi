@@ -2,6 +2,7 @@ package com.platzi.android.rickandmorty.ui
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -9,27 +10,23 @@ import androidx.lifecycle.Observer
 import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.EpisodeListAdapter
 import com.platzi.android.rickandmorty.databinding.ActivityCharacterDetailBinding
-import com.platzi.android.rickandmorty.di.CharacterDetailModule
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.imagemanager.bindCircularImageUrl
 import com.platzi.android.rickandmorty.parcelable.CharacterParcelable
 import com.platzi.android.rickandmorty.parcelable.toCharacterDomain
 import com.platzi.android.rickandmorty.presentation.CharacterDetailViewModel
 import com.platzi.android.rickandmorty.utils.Constants
-import com.platzi.android.rickandmorty.utils.app
-import com.platzi.android.rickandmorty.utils.getViewModel
 import com.platzi.android.rickandmorty.utils.showLongToast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CharacterDetailActivity : AppCompatActivity() {
 
     //region Fields
     private lateinit var episodeListAdapter: EpisodeListAdapter
     private lateinit var binding: ActivityCharacterDetailBinding
-    private lateinit var characterDetailComponent: CharacterDetailModule.CharacterDetailComponent
 
-    private val characterDetailViewModel: CharacterDetailViewModel by lazy {
-        getViewModel { characterDetailComponent.characterDetailViewModel }
-    }
+    private val characterDetailViewModel: CharacterDetailViewModel by viewModels()
 
     //endregion
 
@@ -40,12 +37,6 @@ class CharacterDetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_character_detail)
         binding.lifecycleOwner = this@CharacterDetailActivity
 
-        characterDetailComponent = this.app.component.inject(
-            CharacterDetailModule(
-                intent.getParcelableExtra<CharacterParcelable>(Constants.EXTRA_CHARACTER)?.toCharacterDomain()!!
-            )
-        )
-
         setUpObservers()
 
         episodeListAdapter = EpisodeListAdapter { episode ->
@@ -53,7 +44,9 @@ class CharacterDetailActivity : AppCompatActivity() {
         }
         binding.rvEpisodeList.adapter = episodeListAdapter
 
-        characterDetailViewModel.onCharacterValidation()
+        characterDetailViewModel.onCharacterValidation(
+            intent.getParcelableExtra<CharacterParcelable>(Constants.EXTRA_CHARACTER)?.toCharacterDomain()!!
+        )
         binding.characterFavorite.setOnClickListener { characterDetailViewModel.onUpdateFavoriteCharacterStatus() }
     }
 

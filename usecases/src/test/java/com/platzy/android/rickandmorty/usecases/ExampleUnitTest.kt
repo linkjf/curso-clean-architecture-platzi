@@ -1,6 +1,6 @@
 package com.platzy.android.rickandmorty.usecases
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**

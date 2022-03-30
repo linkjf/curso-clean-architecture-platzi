@@ -2,7 +2,7 @@ package com.platzi.android.rickandmorty.parcelable
 
 import android.os.Parcelable
 import com.platzi.android.rickandmorty.domain.Entities.*
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CharacterParcelable(

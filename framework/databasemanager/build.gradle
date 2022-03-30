@@ -47,7 +47,4 @@ dependencies {
     api roomLib
     kapt roomCompiler
     implementation roomRxJavaLib
-
-    implementation daggerLib
-    kapt daggerCompiler
 }

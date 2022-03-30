@@ -8,17 +8,17 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.FavoriteListAdapter
 import com.platzi.android.rickandmorty.databinding.FragmentFavoriteListBinding
-import com.platzi.android.rickandmorty.di.FavoriteListModule
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.presentation.FavoriteListViewModel
-import com.platzi.android.rickandmorty.utils.app
-import com.platzi.android.rickandmorty.utils.getViewModel
 import com.platzi.android.rickandmorty.utils.setItemDecorationSpacing
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoriteListFragment : Fragment() {
 
     //region Fields
@@ -27,11 +27,7 @@ class FavoriteListFragment : Fragment() {
     private lateinit var favoriteListAdapter: FavoriteListAdapter
     private lateinit var listener: OnFavoriteListFragmentListener
 
-    lateinit var favoriteListComponent: FavoriteListModule.FavoriteListComponent
-
-    private val favoriteListViewModel: FavoriteListViewModel by lazy {
-        getViewModel { favoriteListComponent.favoriteListViewModel }
-    }
+    private val favoriteListViewModel: FavoriteListViewModel by viewModels<FavoriteListViewModel>()
 
     //endregion
 
@@ -48,7 +44,6 @@ class FavoriteListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        favoriteListComponent = requireContext().app.component.inject(FavoriteListModule())
     }
 
     override fun onCreateView(

@@ -7,20 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.platzi.android.rickandmorty.R
 import com.platzi.android.rickandmorty.adapters.CharacterGridAdapter
 import com.platzi.android.rickandmorty.databinding.FragmentCharacterListBinding
-import com.platzi.android.rickandmorty.di.CharacterListModule
 import com.platzi.android.rickandmorty.domain.Entities.Character
 import com.platzi.android.rickandmorty.presentation.CharacterListViewModel
-import com.platzi.android.rickandmorty.utils.app
-import com.platzi.android.rickandmorty.utils.getViewModel
 import com.platzi.android.rickandmorty.utils.setItemDecorationSpacing
 import com.platzi.android.rickandmorty.utils.showLongToast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CharacterListFragment : Fragment() {
 
     //region Fields
@@ -28,11 +28,8 @@ class CharacterListFragment : Fragment() {
     private lateinit var characterGridAdapter: CharacterGridAdapter
     private lateinit var listener: OnCharacterListFragmentListener
 
-    private lateinit var characterListComponent: CharacterListModule.CharacterListComponent
+    private val characterListViewModel: CharacterListViewModel by viewModels()
 
-    private val characterListViewModel: CharacterListViewModel by lazy {
-        getViewModel { characterListComponent.characterListViewModel }
-    }
     private val onScrollListener: RecyclerView.OnScrollListener by lazy {
         object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -63,7 +60,6 @@ class CharacterListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        characterListComponent = requireContext().app.component.inject(CharacterListModule())
     }
 
     override fun onCreateView(

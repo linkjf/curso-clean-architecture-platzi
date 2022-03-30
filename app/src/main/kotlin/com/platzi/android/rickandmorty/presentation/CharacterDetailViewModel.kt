@@ -7,14 +7,18 @@ import com.platzi.android.rickandmorty.domain.Entities.Episode
 import com.platzi.android.rickandmorty.usecases.GetEpisodeFromCharacterUseCase
 import com.platzi.android.rickandmorty.usecases.GetFavoriteCharacterUseCase
 import com.platzi.android.rickandmorty.usecases.SetFavoriteUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class CharacterDetailViewModel(
-    private var character: Character? = null,
+@HiltViewModel
+class CharacterDetailViewModel @Inject constructor(
     private val getEpisodeFromCharacterUseCase: GetEpisodeFromCharacterUseCase,
     private val getFavoriteCharacterUseCase: GetFavoriteCharacterUseCase,
     private val setFavoriteUseCase: SetFavoriteUseCase,
 ) : ViewModel() {
+
+    private val character: Character? = null
 
     private val disposable = CompositeDisposable()
 
@@ -27,7 +31,7 @@ class CharacterDetailViewModel(
     private val _events = MutableLiveData<Event<CharacterDetailNavigation>>()
     val events get() = _events
 
-    fun onCharacterValidation() {
+    fun onCharacterValidation(character: Character) {
         if (character == null) {
             _events.value = Event(CharacterDetailNavigation.ShowCharacterDetailsError(Throwable()))
             return
